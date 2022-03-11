@@ -22,12 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/cost_service"
+        android:importantForAutofill="no"
         android:inputType="numberDecimal"
         android:textColorHint="#757575"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="16dp"
-        android:importantForAutofill="no" />
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck"
+        tools:layout_editor_absoluteX="16dp" />
 
     <RadioGroup
         android:id="@+id/radiogroup_service"
@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/black"
+        android:textColor="?android:textColorPrimary"
         android:textSize="40sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

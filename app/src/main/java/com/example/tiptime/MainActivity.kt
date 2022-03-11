@@ -1,7 +1,9 @@
 package com.example.tiptime
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -50,6 +52,9 @@ class MainActivity : AppCompatActivity() {
             showSnackbar(v, "Please enter the cost of Service")
             return
         }
+
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(v.windowToken, 0)
 
         val tipPercentage = when (binding.radiogroupService.checkedRadioButtonId) {
             R.id.radio_amazing -> 20
