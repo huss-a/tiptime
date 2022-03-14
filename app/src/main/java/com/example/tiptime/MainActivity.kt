@@ -2,20 +2,21 @@ package com.example.tiptime
 
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import com.example.tiptime.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import java.text.DecimalFormat
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var costInput: EditText
+    private lateinit var costInput: TextInputEditText
     private lateinit var roundupToggle: SwitchCompat
     private lateinit var tipAmountText: TextView
 
@@ -45,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 isChecked
             )
         }
+
+        costInput.setOnKeyListener { v, keycode, _ -> handleKeyEvent(v, keycode) }
     }
 
     private fun onCalcButtonClicked(v: View) {
@@ -53,8 +56,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(v.windowToken, 0)
+        hideKeyboard(v)
 
         val tipPercentage = when (binding.radiogroupService.checkedRadioButtonId) {
             R.id.radio_amazing -> 20
@@ -85,6 +87,19 @@ class MainActivity : AppCompatActivity() {
                     tipAmountText.text.toString().toDouble()
                 ) else tipAmount).toString()
         }
+    }
+
+    private fun handleKeyEvent(v: View, keycode: Int): Boolean {
+        if (keycode == KeyEvent.KEYCODE_ENTER) {
+            hideKeyboard(v)
+            return true
+        }
+        return false
+    }
+
+    private fun hideKeyboard(v: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
     private fun showSnackbar(v: View, msg: String) {
