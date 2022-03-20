@@ -20,14 +20,14 @@ class CalculatorTests {
     val activity = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun calculate_default_tip() {
+    fun calculateDefaultTip() {
         typeCost("50.0")
         clickOn(R.id.calc_button)
         checkTipAmount("9.0")
     }
 
     @Test
-    fun calculate_20_percent_tip() {
+    fun calculate20PercentTip() {
         typeCost("200.0")
         onView(withId(R.id.radio_amazing)).perform(click())
         clickOn(R.id.calc_button)
@@ -35,7 +35,7 @@ class CalculatorTests {
     }
 
     @Test
-    fun calculate_15_percent_tip() {
+    fun calculate15PercentTip() {
         typeCost("220.0")
         clickOn(R.id.radio_ok)
         clickOn(R.id.calc_button)
