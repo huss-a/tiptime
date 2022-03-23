@@ -14,6 +14,8 @@ import com.google.android.material.textfield.TextInputEditText
 import java.text.DecimalFormat
 import kotlin.math.round
 
+const val KEY_TIP_AMOUNT = "tip_amount"
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var costInput: TextInputEditText
@@ -27,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         with(binding) {
 
@@ -40,6 +41,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        setContentView(binding.root)
+
+        if (savedInstanceState != null) {
+            tipAmount = savedInstanceState.getDouble(KEY_TIP_AMOUNT)
+            tipAmountText.text = DecimalFormat("#.##").format(tipAmount)
+            tipAmountText.visibility = View.VISIBLE
+        }
+
 
         roundupToggle.setOnCheckedChangeListener { _, isChecked: Boolean ->
             onRoundSwitchChanged(
@@ -48,6 +57,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         costInput.setOnKeyListener { v, keycode, _ -> handleKeyEvent(v, keycode) }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putDouble(KEY_TIP_AMOUNT, tipAmount)
+        super.onSaveInstanceState(outState)
     }
 
     private fun onCalcButtonClicked(v: View) {
@@ -66,6 +80,10 @@ class MainActivity : AppCompatActivity() {
 
         val serviceCost = costInput.text.toString().toDouble()
 
+        setTipAmount(tipPercentage, serviceCost)
+    }
+
+    private fun setTipAmount(tipPercentage: Int, serviceCost: Double) {
         // Format to 2 decimal places
         val df = DecimalFormat("#.##")
 
